@@ -1,0 +1,22 @@
+﻿  Game.cpp
+C:\Users\David\source\repos\SFMLSetup\SFMLSetup\Game.cpp(103,59): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\SFMLSetup\SFMLSetup\Game.cpp(106,69): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\SFMLSetup\SFMLSetup\Game.cpp(109,69): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\SFMLSetup\SFMLSetup\Game.cpp(112,63): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  SFMLSetup.vcxproj -> C:\Users\David\source\repos\SFMLSetup\Debug\SFMLSetup.exe
