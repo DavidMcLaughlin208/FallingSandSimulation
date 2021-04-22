@@ -3,12 +3,15 @@
 #include <GLEW/glew.h>
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <chrono>
 
 
 void Game::initializeVariables()
 {
 	this->window = nullptr;
+	this->unitUtils = new UnitUtils(this->pixelModifier, this->windowWidth, this->windowHeight);
+	this->texture = new sf::Texture();
+	this->sprite = new sf::Sprite();
+	
 }
 
 void Game::initWindow()
@@ -36,11 +39,11 @@ void Game::initEnemies()
 
 Game::Game()
 {
-	this->unitUtils = new UnitUtils(this->pixelModifier, this->windowWidth, this->windowHeight);
 	this->initializeVariables();
 	this->initWindow();
 	this->initEnemies();
 	this->initVertexArray();
+	this->initTexture();
 }
 Game::~Game() {
 	delete this->window;
@@ -85,13 +88,17 @@ void Game::updateEnemies()
 {
 }
 
-void Game::initVertexArray()
+void Game::initTexture() {
+	this->texture->create(this->windowWidth, this->windowHeight);
+	this->pixels = new sf::Uint8[this->unitUtils->convertToMatrix(this->windowWidth) * this->unitUtils->convertToMatrix(this->windowHeight) * this->unitUtils->getPixelSize()];
+	
+	this->updateTexture();
+}
+
+void Game::updateTexture()
 {
-	srand(time(0));
-	int totalRows = this->unitUtils->getHeight() / this->unitUtils->getPixelModifier();
-	int totalCellsPerRow = this->unitUtils->getWidth() / this->unitUtils->getPixelModifier();
-	int quadSize = 4;
-	this->va = new sf::VertexArray(sf::Quads, totalRows * totalCellsPerRow * quadSize);
+	int totalRows = this->unitUtils->convertToMatrix(this->unitUtils->getHeight());
+	int totalCellsPerRow = this->unitUtils->convertToMatrix(this->unitUtils->getWidth());
 	sf::Color currentColor;
 	std::vector<sf::Color> colors;
 	colors.push_back(sf::Color::Blue);
@@ -103,8 +110,35 @@ void Game::initVertexArray()
 		for (int x = 0; x < totalCellsPerRow; x++) {
 			currentColor = colors[rand() % colors.size()];
 
-			int actualX = x * quadSize;
-			int actualY = y * totalCellsPerRow * quadSize;
+			int actualX = x * this->unitUtils->getPixelSize();
+			int actualY = y * totalCellsPerRow * this->unitUtils->getPixelSize();
+			this->pixels[actualX] = currentColor.r;
+			this->pixels[actualX + 1] = currentColor.g;
+			this->pixels[actualX + 2] = currentColor.b;
+			this->pixels[actualX + 3] = currentColor.a;
+		}
+	}
+}
+
+void Game::initVertexArray()
+{
+	srand(time(0));
+	int totalRows = this->unitUtils->convertToMatrix(this->unitUtils->getHeight());
+	int totalCellsPerRow = this->unitUtils->convertToMatrix(this->unitUtils->getWidth());
+	this->va = new sf::VertexArray(sf::Quads, totalRows * totalCellsPerRow * 4);
+	sf::Color currentColor;
+	std::vector<sf::Color> colors;
+	colors.push_back(sf::Color::Blue);
+	colors.push_back(sf::Color::Yellow);
+	colors.push_back(sf::Color::Black);
+	colors.push_back(sf::Color::Cyan);
+	for (int y = 0; y < totalRows; y++) {
+		std::cout << "newRow" + y << std::endl;
+		for (int x = 0; x < totalCellsPerRow; x++) {
+			currentColor = colors[rand() % colors.size()];
+
+			int actualX = x * this->unitUtils->getQuadSize();
+			int actualY = y * totalCellsPerRow * this->unitUtils->getQuadSize();
 			this->va->operator[](actualX + actualY).color = currentColor;
 			this->va->operator[](actualX + actualY).position = sf::Vector2f(x * this->unitUtils->getPixelModifier(), this->unitUtils->convertToPixel(y));
 
@@ -153,6 +187,8 @@ void Game::update()
 
 	this->shuffleVertArray();
 
+	this->updateTexture();
+
 	this->updateEnemies();
 
 }
@@ -161,7 +197,7 @@ void Game::render()
 {
 	this->window->clear();
 
-	this->window->draw(*this->va);
+	//this->window->draw(*this->va);
 
 	//this->window->draw(this->enemy);
 

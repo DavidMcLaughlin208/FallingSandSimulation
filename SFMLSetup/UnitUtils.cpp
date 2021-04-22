@@ -6,6 +6,8 @@ UnitUtils::UnitUtils(int _pixelModifier, int _windowWidth, int _windowHeight) {
 	this->windowHeight = _windowHeight;
 	this->matrixHeight = _windowHeight / _pixelModifier;
 	this->matrixWidth = _windowWidth / _pixelModifier;
+	this->quadSize = 4;
+	this->pixelSize = 4;
 }
 
 int UnitUtils::convertToMatrix(int pixelValue)
@@ -41,4 +43,14 @@ int UnitUtils::getMatrixHeight()
 int UnitUtils::getMatrixWidth()
 {
 	return this->matrixWidth;
+}
+
+int UnitUtils::getPixelSize()
+{
+	return this->pixelSize;
+}
+
+int UnitUtils::getQuadSize()
+{
+	return this->quadSize;
 }

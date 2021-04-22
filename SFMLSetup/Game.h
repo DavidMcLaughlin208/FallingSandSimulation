@@ -21,9 +21,12 @@ private:
 	sf::Vector2i mousePosWindow;
 	float enemySpawnTimer;
 	UnitUtils* unitUtils;
-	int windowWidth = 1280;
-	int windowHeight = 800;
+	unsigned int windowWidth = 1280;
+	unsigned int windowHeight = 800;
 	int pixelModifier = 2;
+	sf::Texture* texture;
+	sf::Sprite* sprite;
+	sf::Uint8* pixels;
 
 	//GameObjects
 	std::vector<sf::RectangleShape> enemies;
@@ -46,11 +49,13 @@ public:
 	void pollEvents();
 	void updateMousePositions();
 	void updateEnemies();
+	void initTexture();
 	void initVertexArray();
 
 	void shuffleVertArray();
 
 	void update();
+	void updateTexture();
 	void render();
 	void renderEnemies();
 };

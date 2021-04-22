@@ -7,6 +7,8 @@ private:
 	int windowHeight;
 	int matrixHeight;
 	int matrixWidth;
+	int quadSize;
+	int pixelSize;
 public:
 
 	UnitUtils(int _pixelModifier, int _windowWidth, int _windowHeight);
@@ -18,6 +20,8 @@ public:
 	int getPixelModifier();
 	int getMatrixHeight();
 	int getMatrixWidth();
+	int getPixelSize();
+	int getQuadSize();
 
 };
 
