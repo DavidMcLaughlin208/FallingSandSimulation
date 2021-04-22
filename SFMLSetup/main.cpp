@@ -14,10 +14,12 @@ int main()
 	Game game;
 
 	while (game.running()) {
-
+		auto start = std::chrono::high_resolution_clock::now();
 		game.update();
 
 		game.render();
+		auto elapsed = std::chrono::high_resolution_clock::now() - start;
+		std::cout << "Frame took: " << elapsed/std::chrono::milliseconds(1) << " ms" <<  std::endl;
 	}
 
 	return 0;

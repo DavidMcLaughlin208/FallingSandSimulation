@@ -3,6 +3,7 @@
 #include <GLEW/glew.h>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <chrono>
 
 
 void Game::initializeVariables()
@@ -19,8 +20,8 @@ void Game::initWindow()
 }
 
 void Game::initGL() {
-	glEnable(GL_TEXTURE_2D);
-	glShadeModel(GL_FLAT);
+	//glEnable(GL_TEXTURE_2D);
+	//glShadeModel(GL_FLAT);
 }
 
 void Game::initEnemies()  
@@ -86,30 +87,61 @@ void Game::updateEnemies()
 
 void Game::initVertexArray()
 {
-	int totalCells = 10;
-	this->va = new sf::VertexArray(sf::Quads, totalCells * 12);
+	srand(time(0));
+	int totalRows = this->unitUtils->getHeight() / this->unitUtils->getPixelModifier();
+	int totalCellsPerRow = this->unitUtils->getWidth() / this->unitUtils->getPixelModifier();
+	int quadSize = 4;
+	this->va = new sf::VertexArray(sf::Quads, totalRows * totalCellsPerRow * quadSize);
+	sf::Color currentColor;
+	std::vector<sf::Color> colors;
+	colors.push_back(sf::Color::Blue);
+	colors.push_back(sf::Color::Yellow);
+	colors.push_back(sf::Color::Black);
+	colors.push_back(sf::Color::Cyan);
+	for (int y = 0; y < totalRows; y++) {
+		std::cout << "newRow" + y << std::endl;
+		for (int x = 0; x < totalCellsPerRow; x++) {
+			currentColor = colors[rand() % colors.size()];
+
+			int actualX = x * quadSize;
+			int actualY = y * totalCellsPerRow * quadSize;
+			this->va->operator[](actualX + actualY).color = currentColor;
+			this->va->operator[](actualX + actualY).position = sf::Vector2f(x * this->unitUtils->getPixelModifier(), this->unitUtils->convertToPixel(y));
+
+			this->va->operator[](actualX + actualY + 1).color = currentColor;
+			this->va->operator[](actualX + actualY + 1).position = sf::Vector2f((x + 1) * this->unitUtils->getPixelModifier(), this->unitUtils->convertToPixel(y));
+
+			this->va->operator[](actualX + actualY + 2).color = currentColor;
+			this->va->operator[](actualX + actualY + 2).position = sf::Vector2f((x + 1) * this->unitUtils->getPixelModifier(), this->unitUtils->convertToPixel(y) + this->unitUtils->getPixelModifier());
+
+			this->va->operator[](actualX + actualY + 3).color = currentColor;
+			this->va->operator[](actualX + actualY + 3).position = sf::Vector2f(x * this->unitUtils->getPixelModifier(), this->unitUtils->convertToPixel(y) + this->unitUtils->getPixelModifier());
+		}
+	}
+}
+
+void Game::shuffleVertArray() {
+	int totalRows = unitUtils->getMatrixHeight();
+	int totalCellsPerRow = unitUtils->getMatrixWidth();
 	int quadSize = 4;
 	sf::Color currentColor;
 	std::vector<sf::Color> colors;
 	colors.push_back(sf::Color::Blue);
-	colors.push_back(sf::Color::Magenta);
-	colors.push_back(sf::Color::Red);
-	colors.push_back(sf::Color::Green);
-	for (int x = 0; x <= totalCells; x++) {
-		currentColor = colors[rand() % colors.size()];
+	colors.push_back(sf::Color::Yellow);
+	colors.push_back(sf::Color::Black);
+	colors.push_back(sf::Color::Cyan);
+	for (int y = 0; y < totalRows; y++) {
 
-		int actualX = x * quadSize;
-		this->va->operator[](actualX).color = currentColor;
-		this->va->operator[](actualX).position = sf::Vector2f(x * 10, 0);
-		
-		this->va->operator[](actualX + 1).color = currentColor;
-		this->va->operator[](actualX + 1).position = sf::Vector2f((x + 1) * 10, 0);
-		
-		this->va->operator[](actualX + 2).color = currentColor;
-		this->va->operator[](actualX + 2).position = sf::Vector2f((x + 1) * 10, 10);
-		
-		this->va->operator[](actualX + 3).color = currentColor;
-		this->va->operator[](actualX + 3).position = sf::Vector2f(x * 10, 10);
+		for (int x = 0; x < totalCellsPerRow; x++) {
+			currentColor = colors[rand() % colors.size()];
+
+			int actualX = x * quadSize;
+			int actualY = y * totalCellsPerRow * quadSize;
+			this->va->operator[](actualX + actualY).color = currentColor;
+			this->va->operator[](actualX + actualY + 1).color = currentColor;
+			this->va->operator[](actualX + actualY + 2).color = currentColor;
+			this->va->operator[](actualX + actualY + 3).color = currentColor;
+		}
 	}
 }
 
@@ -119,7 +151,7 @@ void Game::update()
 
 	this->updateMousePositions();
 
-	std::cout << this->va->getVertexCount() << std::endl;
+	this->shuffleVertArray();
 
 	this->updateEnemies();
 

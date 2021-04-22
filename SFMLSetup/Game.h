@@ -9,6 +9,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
+#include <chrono>
 
 class Game
 {
@@ -20,8 +21,8 @@ private:
 	sf::Vector2i mousePosWindow;
 	float enemySpawnTimer;
 	UnitUtils* unitUtils;
-	int windowWidth = 800;
-	int windowHeight = 600;
+	int windowWidth = 1280;
+	int windowHeight = 800;
 	int pixelModifier = 2;
 
 	//GameObjects
@@ -46,6 +47,8 @@ public:
 	void updateMousePositions();
 	void updateEnemies();
 	void initVertexArray();
+
+	void shuffleVertArray();
 
 	void update();
 	void render();
