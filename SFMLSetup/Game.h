@@ -10,6 +10,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <chrono>
+#include <vector>
 
 class Game
 {
@@ -23,10 +24,10 @@ private:
 	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 2;
+	int pixelModifier = 4;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
-	sf::Uint8* pixels;
+	std::vector<sf::Uint8>* pixels;
 
 	//GameObjects
 	std::vector<sf::RectangleShape> enemies;
