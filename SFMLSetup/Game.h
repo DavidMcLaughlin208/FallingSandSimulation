@@ -11,6 +11,7 @@
 #include <SFML/Network.hpp>
 #include <chrono>
 #include <vector>
+#include "CellularMatrix.h"
 
 class Game
 {
@@ -24,10 +25,11 @@ private:
 	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 4;
+	int pixelModifier = 2;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
+	CellularMatrix* matrix;
 
 	//GameObjects
 	std::vector<sf::RectangleShape> enemies;

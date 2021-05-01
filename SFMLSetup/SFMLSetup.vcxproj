@@ -145,12 +145,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CellularMatrix.cpp" />
+    <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="ImmovableSolid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Solid.cpp" />
     <ClCompile Include="UnitUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CellularMatrix.h" />
+    <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ImmovableSolid.h" />
+    <ClInclude Include="Solid.h" />
     <ClInclude Include="UnitUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

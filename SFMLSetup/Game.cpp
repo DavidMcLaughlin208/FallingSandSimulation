@@ -8,6 +8,7 @@ void Game::initializeVariables()
 {
 	this->window = nullptr;
 	this->unitUtils = new UnitUtils(this->pixelModifier, this->windowWidth, this->windowHeight);
+	this->matrix = new CellularMatrix(this->unitUtils->convertToMatrix(this->windowWidth), this->unitUtils->convertToMatrix(this->windowHeight));
 	this->texture = new sf::Texture();
 	this->sprite = new sf::Sprite();
 	
@@ -47,6 +48,7 @@ Game::Game()
 Game::~Game() {
 	delete this->window;
 	delete this->unitUtils;
+	delete this->pixels;
 }
 
 const bool Game::running()
@@ -71,6 +73,8 @@ void Game::pollEvents()
 			if (this->ev.key.code == sf::Keyboard::Escape) {
 				this->window->close();
 			}
+			break;
+		case sf::Event::MouseButtonPressed:
 			break;
 		default:
 			break;
@@ -184,11 +188,11 @@ void Game::shuffleVertArray() {
 
 void Game::update()
 {
-	this->pollEvents();
-
 	this->updateMousePositions();
 
-	this->shuffleVertArray();
+	this->pollEvents();
+
+	//this->shuffleVertArray();
 
 	//this->updateTexture();
 
@@ -200,9 +204,9 @@ void Game::render()
 {
 	this->window->clear();
 
-	this->window->draw(*this->va);
+	//this->window->draw(*this->va);
 
-	//this->window->draw(*this->sprite);
+	this->window->draw(*this->sprite);
 
 	this->window->display();
 }

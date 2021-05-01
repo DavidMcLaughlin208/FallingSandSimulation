@@ -13,6 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Elements">
+      <UniqueIdentifier>{fc7be3bd-0fc4-4146-afe6-075f478c2a5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elements">
+      <UniqueIdentifier>{5b53c863-7c38-4f42-bbc6-a99dd07ce3c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elements\Solid">
+      <UniqueIdentifier>{00fb6662-242e-4a35-a5f3-7beaaca09830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elements\Solid\MovableSolid">
+      <UniqueIdentifier>{ee257dab-e4fb-4aa2-97e1-a653e9d2e131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elements\Solid\ImmovableSolid">
+      <UniqueIdentifier>{582eb2dd-d5a6-4b1c-8bc2-4e8fe1f482d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elements\Solid">
+      <UniqueIdentifier>{e5762056-02b7-45b2-8729-05d1aa1d279e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elements\Solid\ImmovableSolid">
+      <UniqueIdentifier>{9cc231b7-1505-4dec-b74d-261ec220e83b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elements\Solid\MovableSolid">
+      <UniqueIdentifier>{86469468-c353-4524-bb2d-fcf8d53f61f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elements\Solid\Liquid">
+      <UniqueIdentifier>{76f2f4cc-7fe4-435a-b11c-704480f2f028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elements\Solid\Gas">
+      <UniqueIdentifier>{e83e6962-e1c9-412e-b7c6-ccf9f60b334e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elements\Solid\Gas">
+      <UniqueIdentifier>{6c718f72-4ae4-44bf-83b4-a39421be4cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elements\Solid\Liquid">
+      <UniqueIdentifier>{58291466-a409-4bde-b02f-3f92e78b361f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,6 +60,18 @@
     <ClCompile Include="UnitUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CellularMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Element.cpp">
+      <Filter>Source Files\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ImmovableSolid.cpp">
+      <Filter>Source Files\Elements\Solid\ImmovableSolid</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -31,6 +79,18 @@
     </ClInclude>
     <ClInclude Include="UnitUtils.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CellularMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Element.h">
+      <Filter>Header Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImmovableSolid.h">
+      <Filter>Header Files\Elements\Solid\ImmovableSolid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
