@@ -24,6 +24,7 @@ void Simulation::initializeVariables() {
 
 Simulation::Simulation()
 {
+	srand(time(0));
 	this->initializeVariables();
 	this->initWindow();
 	this->populateMatrix();
@@ -63,6 +64,7 @@ void Simulation::populateMatrix() {
 			this->matrix->setCell(x + y * totalCellsPerRow, rand() % 3);
 		}
 	}
+	this->matrix->swapBuffer();
 	std::cout << "Finished populating matrix" << std::endl;
 }
 
@@ -75,13 +77,16 @@ void Simulation::updateMatrix() {
 			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
 			bool getEaten = getNeighbors(x, y, currentCell);
 			if (getEaten) {
-				if (currentCell == 2) {
-					this->matrix->setCell(x + y * totalCellsPerRow, 0);
+				if (currentCell == 0) {
+					this->matrix->setCell(x + y * totalCellsPerRow, 2);
 				}
 				else {
-					this->matrix->setCell(x + y * totalCellsPerRow, currentCell + 1);
+					this->matrix->setCell(x + y * totalCellsPerRow, currentCell - 1);
 				}
 				
+			}
+			else {
+				this->matrix->setCell(x + y * totalCellsPerRow, currentCell);
 			}
 			
 		}
@@ -148,6 +153,9 @@ void Simulation::updateTexture() {
 			int actualY = y * totalCellsPerRow * this->unitUtils->getPixelSize();
 			int cellType = this->matrix->getCell(x + y * totalCellsPerRow);
 			sf::Color color;
+			if (cellType > 2 || cellType < 0) {
+				std::cout << "Broken";
+			}
 			if (cellType == 0) {
 				color = sf::Color::Blue;
 			} 
@@ -176,6 +184,8 @@ void Simulation::update()
 	this->updateMatrix();
 
 	this->updateTexture();
+
+	this->matrix->swapBuffer();
 }
 
 void Simulation::render()

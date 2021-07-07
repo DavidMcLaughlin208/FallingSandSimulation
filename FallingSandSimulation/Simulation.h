@@ -24,7 +24,7 @@ private:
 	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 10;
+	int pixelModifier = 6;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
