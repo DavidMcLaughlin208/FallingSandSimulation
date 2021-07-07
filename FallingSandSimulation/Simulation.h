@@ -24,7 +24,7 @@ private:
 	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 2;
+	int pixelModifier = 10;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
@@ -34,10 +34,14 @@ public:
 	~Simulation();
 	void pollEvents();
 	void initTexture();
+	void updateTexture();
 	void update();
 	void render();
 	const bool running();
 	void initWindow();
 	void initializeVariables();
+	void populateMatrix();
+	void updateMatrix();
+	bool getNeighbors(int x, int y, int cellType);
 };
 

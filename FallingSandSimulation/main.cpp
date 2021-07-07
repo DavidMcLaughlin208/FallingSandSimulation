@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <chrono>
+#include <thread>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -27,8 +29,16 @@ int main()
 	//}
 
 	while (sim.running()) {
+		auto startUpdate = std::chrono::high_resolution_clock::now();
 		sim.update();
 		sim.render();
+		auto elapsedUpdate = std::chrono::high_resolution_clock::now() - startUpdate;
+
+		if (elapsedUpdate / std::chrono::milliseconds(1) < 100) {
+			std::cout << "Sleeping" << std::endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(100 - elapsedUpdate / std::chrono::milliseconds(1)));
+		}
+		
 	}
 
 	return 0;
