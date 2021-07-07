@@ -21,9 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2674394d-fa70-43f7-a1fa-dc037885656f}</ProjectGuid>
+    <ProjectGuid>{6236A4B5-E555-4C99-BD41-E38950746D7A}</ProjectGuid>
     <RootNamespace>SFMLSetup</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>FallingSandSimulation</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -145,19 +146,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="CellularAutomaton.cpp" />
     <ClCompile Include="CellularMatrix.cpp" />
     <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImmovableSolid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="UnitUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="CellularAutomaton.h" />
     <ClInclude Include="CellularMatrix.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImmovableSolid.h" />
+    <ClInclude Include="Simulation.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="UnitUtils.h" />
   </ItemGroup>

@@ -17,7 +17,7 @@ public:
 	Element* get(int x, int y);
 
 	void setElementAtIndex(int x, int y, Element* element);
-	//void spawnElementAtIndex(int x, int y, )
+	//void spawnElement(int x, int y, )
 
 };
 

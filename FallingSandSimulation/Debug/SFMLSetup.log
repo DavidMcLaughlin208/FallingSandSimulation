@@ -1,4 +1,5 @@
-﻿  CellularMatrix.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (SFMLSetup.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  CellularMatrix.cpp
   Element.cpp
   Game.cpp
 C:\Users\David\source\repos\SFMLSetup\SFMLSetup\Game.cpp(127,95): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -47,5 +48,6 @@ C:\Users\David\source\repos\SFMLSetup\SFMLSetup\Game.cpp(159,74): warning C4244:
   ImmovableSolid.cpp
   main.cpp
   Solid.cpp
+  UnitUtils.cpp
   Generating Code...
-  SFMLSetup.vcxproj -> C:\Users\David\source\repos\SFMLSetup\Debug\SFMLSetup.exe
+  SFMLSetup.vcxproj -> C:\Users\David\source\repos\SFMLSetup\Debug\FallingSandSimulation.exe

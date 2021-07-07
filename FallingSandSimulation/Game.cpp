@@ -27,21 +27,10 @@ void Game::initGL() {
 	//glShadeModel(GL_FLAT);
 }
 
-void Game::initEnemies()  
-{
-	this->enemy.setPosition(10.0f, 10.0f);
-	this->enemy.setSize(sf::Vector2f(100.0f, 100.0f));
-	this->enemy.setScale(0.5f, 0.5f);
-	this->enemy.setFillColor(sf::Color::Cyan);
-	this->enemy.setOutlineColor(sf::Color::Green);
-	this->enemy.setOutlineThickness(1.f);
-}
-
 Game::Game()
 {
 	this->initializeVariables();
 	this->initWindow();
-	this->initEnemies();
 	this->initVertexArray();
 	this->initTexture();
 }
@@ -57,10 +46,6 @@ const bool Game::running()
 }
 
 //Accessors
-
-void Game::spawnEnemy()
-{
-}
 
 void Game::pollEvents()
 {
@@ -85,10 +70,6 @@ void Game::pollEvents()
 void Game::updateMousePositions()
 {
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-}
-
-void Game::updateEnemies()
-{
 }
 
 void Game::initTexture() {
@@ -196,8 +177,6 @@ void Game::update()
 
 	//this->updateTexture();
 
-	this->updateEnemies();
-
 }
 
 void Game::render()
@@ -209,8 +188,4 @@ void Game::render()
 	this->window->draw(*this->sprite);
 
 	this->window->display();
-}
-
-void Game::renderEnemies()
-{
 }
