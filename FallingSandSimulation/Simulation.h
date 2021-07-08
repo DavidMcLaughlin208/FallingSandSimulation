@@ -29,12 +29,15 @@ private:
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
 	CellularAutomaton* matrix;
+	bool mouseDown = false;
+	sf::Shader shader;
 public:
 	Simulation();
 	~Simulation();
 	void pollEvents();
 	void initTexture();
 	void updateTexture();
+	void updateMousePositions();
 	void update();
 	void render();
 	const bool running();
@@ -43,5 +46,6 @@ public:
 	void populateMatrix();
 	void updateMatrix();
 	bool getNeighbors(int x, int y, int cellType);
+	void click();
 };
 

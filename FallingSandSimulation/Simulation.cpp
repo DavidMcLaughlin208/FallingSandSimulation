@@ -29,6 +29,12 @@ Simulation::Simulation()
 	this->initWindow();
 	this->populateMatrix();
 	this->initTexture();
+	
+	shader.loadFromFile("frag.glsl", sf::Shader::Fragment);
+	if (!shader.isAvailable()) {
+		std::cout << "The shader is not available\n";
+	}
+	shader.setUniform("resolution", sf::Vector2f(this->windowWidth, this->windowHeight));
 }
 
 Simulation::~Simulation()
@@ -48,9 +54,31 @@ void Simulation::pollEvents()
 			}
 			break;
 		case sf::Event::MouseButtonPressed:
+			mouseDown = true;
+			break;
+		case sf::Event::MouseButtonReleased:
+			mouseDown = false;
 			break;
 		default:
 			break;
+		}
+	}
+
+	if (mouseDown) {
+		click();
+	}
+}
+
+void Simulation::click() {
+	int mouseMatrixX = this->unitUtils->convertToMatrix(this->mousePosWindow.x);
+	int mouseMatrixY = this->unitUtils->convertToMatrix(this->mousePosWindow.y);
+	int brushSize = 7;
+	for (int modY = -brushSize; modY <= brushSize; modY++) {
+		for (int modX = -brushSize; modX <= brushSize; modX++) {
+			if (mouseMatrixX + modX < 0 || mouseMatrixX + modX > this->unitUtils->getMatrixWidth() - 1 || mouseMatrixY + modY < 0 || mouseMatrixY + modY > this->unitUtils->getMatrixHeight() - 1) {
+				continue;
+			}
+			this->matrix->setCell(mouseMatrixX + modX, mouseMatrixY + modY, 0);
 		}
 	}
 }
@@ -177,13 +205,21 @@ void Simulation::updateTexture() {
 	this->sprite->setScale(this->unitUtils->getPixelModifier(), this->unitUtils->getPixelModifier());
 }
 
+void Simulation::updateMousePositions()
+{
+	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+}
+
 void Simulation::update()
 {
-	this->pollEvents();
+	this->updateMousePositions();
+	
 
 	this->updateMatrix();
 
 	this->updateTexture();
+
+	this->pollEvents();
 
 	this->matrix->swapBuffer();
 }
@@ -192,7 +228,7 @@ void Simulation::render()
 {
 	this->window->clear();
 
-	this->window->draw(*this->sprite);
+	this->window->draw(*this->sprite, &this->shader);
 
 	this->window->display();
 }
