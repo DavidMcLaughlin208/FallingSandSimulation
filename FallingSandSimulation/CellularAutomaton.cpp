@@ -16,9 +16,6 @@ CellularAutomaton::~CellularAutomaton()
 
 void CellularAutomaton::setCell(int index, int val)
 {
-	if (val < 0 || val > 2) {
-		std::cout << "broken";
-	}
 	(*this->buffer)[index] = val;
 }
 

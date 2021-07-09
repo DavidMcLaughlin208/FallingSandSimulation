@@ -1,5 +1,7 @@
 #include "Simulation.h"
 
+#include <thread>
+
 
 const bool Simulation::running()
 {
@@ -20,6 +22,12 @@ void Simulation::initializeVariables() {
 	this->matrix = new CellularAutomaton(this->unitUtils->getMatrixWidth(), this->unitUtils->getMatrixHeight());
 	this->texture = new sf::Texture();
 	this->sprite = new sf::Sprite();
+	this->typeToColorMap[0] = sf::Color::Blue;
+	this->typeToColorMap[1] = sf::Color::Red;
+	this->typeToColorMap[2] = sf::Color::Green;
+	this->rulesMap[0] = 2;
+	this->rulesMap[1] = 0;
+	this->rulesMap[2] = 1;
 }
 
 Simulation::Simulation()
@@ -29,6 +37,8 @@ Simulation::Simulation()
 	this->initWindow();
 	this->populateMatrix();
 	this->initTexture();
+
+	
 	
 	shader.loadFromFile("frag.glsl", sf::Shader::Fragment);
 	if (!shader.isAvailable()) {
@@ -121,6 +131,31 @@ void Simulation::updateMatrix() {
 	}
 }
 
+void Simulation::updateMatrixColumn(int start, int end) {
+	int totalRows = this->unitUtils->getMatrixHeight();
+	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
+	for (int y = 0; y < totalRows; y++) {
+		//std::cout << "newRow" << y << std::endl;
+		for (int x = start; x < end; x++) {
+			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
+			bool getEaten = getNeighbors(x, y, currentCell);
+			if (getEaten) {
+				if (currentCell == 0) {
+					this->matrix->setCell(x + y * totalCellsPerRow, 2);
+				}
+				else {
+					this->matrix->setCell(x + y * totalCellsPerRow, currentCell - 1);
+				}
+
+			}
+			else {
+				this->matrix->setCell(x + y * totalCellsPerRow, currentCell);
+			}
+
+		}
+	}
+}
+
 bool Simulation::getNeighbors(int x, int y, int cellType) {
 	int totalRows = this->unitUtils->getMatrixHeight();
 	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
@@ -148,13 +183,15 @@ bool Simulation::getNeighbors(int x, int y, int cellType) {
 			int neighborCellType = this->matrix->getCell(newX + newY * totalCellsPerRow);
 			if (cellType == 0 && neighborCellType == 2) {
 				eatCount++;
-			}
-			else if (cellType == 1 && neighborCellType == 0) {
+			} else if (cellType == 1 && neighborCellType == 0) {
 				eatCount++;
 			}
 			else if (cellType == 2 && neighborCellType == 1) {
 				eatCount++;
 			}
+			/*if (neighborCellType == this->rulesMap[cellType]) {
+				eatCount++;
+			}*/
 			if (eatCount > 2) {
 				return true;
 			}
@@ -167,6 +204,8 @@ void Simulation::initTexture() {
 	this->texture->create(unitUtils->getMatrixWidth(), unitUtils->getMatrixHeight());
 	this->pixels = new std::vector<sf::Uint8>(this->unitUtils->getMatrixWidth() * this->unitUtils->getMatrixHeight() * this->unitUtils->getPixelSize());
 	this->updateTexture();
+	this->sprite->setTexture(*this->texture);
+	this->sprite->setScale(this->unitUtils->getPixelModifier(), this->unitUtils->getPixelModifier());
 }
 
 void Simulation::updateTexture() {
@@ -174,24 +213,19 @@ void Simulation::updateTexture() {
 	int totalRows = this->unitUtils->getMatrixHeight();
 	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
 	for (int y = 0; y < totalRows; y++) {
-		//std::cout << "newRow" << y << std::endl;
 		for (int x = 0; x < totalCellsPerRow; x++) {
-
 			int actualX = x * this->unitUtils->getPixelSize();
 			int actualY = y * totalCellsPerRow * this->unitUtils->getPixelSize();
 			int cellType = this->matrix->getCell(x + y * totalCellsPerRow);
 			sf::Color color;
-			if (cellType > 2 || cellType < 0) {
-				std::cout << "Broken";
-			}
 			if (cellType == 0) {
 				color = sf::Color::Blue;
-			} 
+			}
 			else if (cellType == 1) {
-				color = sf::Color::Red;
+				color = sf::Color::Magenta;
 			}
 			else if (cellType == 2) {
-				color = sf::Color::Green;
+				color = sf::Color::Yellow;
 			}
 			pixelRef[actualX + actualY] = color.r;
 			pixelRef[actualX + actualY + 1] = color.g;
@@ -199,10 +233,37 @@ void Simulation::updateTexture() {
 			pixelRef[actualX + actualY + 3] = color.a;
 		}
 	}
-	this->sprite->setTexture(*this->texture);
 	sf::Uint8* startOfArray = &pixelRef[0];
 	this->texture->update(startOfArray);
-	this->sprite->setScale(this->unitUtils->getPixelModifier(), this->unitUtils->getPixelModifier());
+}
+
+void Simulation::updateTextureColumn(int start, int end) {
+	std::vector<sf::Uint8> pixelRef = *this->pixels;
+	int totalRows = this->unitUtils->getMatrixHeight();
+	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
+	for (int y = 0; y < totalRows; y++) {
+		for (int x = start; x < end; x++) {
+			int actualX = x * this->unitUtils->getPixelSize();
+			int actualY = y * totalCellsPerRow * this->unitUtils->getPixelSize();
+			int cellType = this->matrix->getCell(x + y * totalCellsPerRow);
+			sf::Color color;
+			if (cellType == 0) {
+				color = sf::Color::Blue;
+			}
+			else if (cellType == 1) {
+				color = sf::Color::Magenta;
+			}
+			else if (cellType == 2) {
+				color = sf::Color::Yellow;
+			}
+			pixelRef[actualX + actualY] = color.r;
+			pixelRef[actualX + actualY + 1] = color.g;
+			pixelRef[actualX + actualY + 2] = color.b;
+			pixelRef[actualX + actualY + 3] = color.a;
+		}
+	}
+	sf::Uint8* startOfArray = &pixelRef[0];
+	this->texture->update(startOfArray);
 }
 
 void Simulation::updateMousePositions()
@@ -214,21 +275,34 @@ void Simulation::update()
 {
 	this->updateMousePositions();
 	
+	/*if (this->threads) {
+		int spanForColumn = this->unitUtils->getMatrixWidth() / 12;
+		for (int t = 0; t < 11; t++) {
+			std::thread thread1(updateMatrixColumn, t * spanForColumn, t * spanForColumn + spanForColumn);
+		}
+	}
+	else {*/
+		this->updateMatrix();
+		this->updateTexture();
+	//}
 
-	this->updateMatrix();
-
-	this->updateTexture();
 
 	this->pollEvents();
 
 	this->matrix->swapBuffer();
+
+	this->count++;
 }
 
 void Simulation::render()
 {
 	this->window->clear();
-
-	this->window->draw(*this->sprite, &this->shader);
+	//if (rand() % 2 == 1) {
+	//shader.setUniform("time", count * 1.0f);
+		this->window->draw(*this->sprite, &this->shader);
+	//} else {
+	//	this->window->draw(*this->sprite);
+	//}
 
 	this->window->display();
 }

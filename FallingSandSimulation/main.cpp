@@ -28,7 +28,7 @@ int main()
 	//	//std::cout << "Render took: " << elapsed/std::chrono::milliseconds(1) << " ms" <<  std::endl;
 	//}
 
-	int waitTime = 50;
+	int waitTime = 0;
 
 	while (sim.running()) {
 		auto startUpdate = std::chrono::high_resolution_clock::now();
@@ -39,7 +39,7 @@ int main()
 		int timeElapsed = elapsedUpdate / std::chrono::milliseconds(1);
 
 		if (timeElapsed < waitTime) {
-			//std::cout << "Sleeping" << std::endl;
+			std::cout << "Sleeping" << std::endl;
 			std::this_thread::sleep_for(std::chrono::milliseconds(waitTime - timeElapsed));
 		}
 		
