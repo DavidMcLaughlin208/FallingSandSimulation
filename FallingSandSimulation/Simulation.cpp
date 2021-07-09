@@ -1,6 +1,7 @@
 #include "Simulation.h"
 
 #include <thread>
+#include <list>
 
 
 const bool Simulation::running()
@@ -28,6 +29,8 @@ void Simulation::initializeVariables() {
 	this->rulesMap[0] = 2;
 	this->rulesMap[1] = 0;
 	this->rulesMap[2] = 1;
+	this->threadCount = this->unitUtils->getMatrixWidth() / 30;
+	std::cout << this->threadCount << std::endl;
 }
 
 Simulation::Simulation()
@@ -136,7 +139,10 @@ void Simulation::updateMatrixColumn(int start, int end) {
 	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
 	for (int y = 0; y < totalRows; y++) {
 		//std::cout << "newRow" << y << std::endl;
-		for (int x = start; x < end; x++) {
+		for (int x = start; x <= end; x++) {
+			if (x > this->unitUtils->getMatrixWidth()) {
+				continue;
+			}
 			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
 			bool getEaten = getNeighbors(x, y, currentCell);
 			if (getEaten) {
@@ -275,16 +281,23 @@ void Simulation::update()
 {
 	this->updateMousePositions();
 	
-	/*if (this->threads) {
-		int spanForColumn = this->unitUtils->getMatrixWidth() / 12;
-		for (int t = 0; t < 11; t++) {
-			std::thread thread1(updateMatrixColumn, t * spanForColumn, t * spanForColumn + spanForColumn);
+	if (this->threads) {
+		std::list <std::thread> threadList;
+		int spanForColumn = this->unitUtils->getMatrixWidth() / this->threadCount;
+		for (int t = 0; t < this->threadCount - 1; t++) {
+			threadList.push_back(std::thread(&Simulation::updateMatrixColumn, this, t * spanForColumn, t * spanForColumn + spanForColumn - 1));
+		}
+		threadList.push_back(std::thread(&Simulation::updateMatrixColumn, this, (this->threadCount - 1) * spanForColumn, this->unitUtils->getMatrixWidth() - 1));
+		std::list<std::thread>::iterator it;
+		for (it = threadList.begin(); it != threadList.end(); ++it) {
+			it->join();
 		}
 	}
-	else {*/
+	else {
 		this->updateMatrix();
-		this->updateTexture();
-	//}
+	}
+
+	this->updateTexture();
 
 
 	this->pollEvents();
@@ -297,12 +310,8 @@ void Simulation::update()
 void Simulation::render()
 {
 	this->window->clear();
-	//if (rand() % 2 == 1) {
-	//shader.setUniform("time", count * 1.0f);
-		this->window->draw(*this->sprite, &this->shader);
-	//} else {
-	//	this->window->draw(*this->sprite);
-	//}
+	//this->window->draw(*this->sprite, &this->shader);
+	this->window->draw(*this->sprite);
 
 	this->window->display();
 }

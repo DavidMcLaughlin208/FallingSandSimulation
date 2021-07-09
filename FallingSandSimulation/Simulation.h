@@ -18,6 +18,8 @@
 class Simulation
 {
 private:
+	//Simulation(const Simulation&) = default;
+	//Simulation& operator=(const Simulation&) = default;
 	sf::RenderWindow* window;
 	sf::Event ev;
 	sf::VideoMode videoMode;
@@ -25,7 +27,7 @@ private:
 	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 2;
+	int pixelModifier = 1;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
@@ -36,6 +38,7 @@ private:
 	std::unordered_map<int, sf::Color> typeToColorMap;
 	std::unordered_map<int, int> rulesMap;
 	bool threads = true;
+	int threadCount;
 public:
 	Simulation();
 	~Simulation();
@@ -43,7 +46,6 @@ public:
 	void initTexture();
 	void updateTexture();
 	void updateTextureColumn(int start, int end);
-	void updateTextureColumn(int x);
 	void updateMousePositions();
 	void update();
 	void render();
@@ -53,6 +55,7 @@ public:
 	void populateMatrix();
 	void updateMatrix();
 	void updateMatrixColumn(int start, int end);
+	//void updateMatrixColumn(int& start, int& end);
 	bool getNeighbors(int x, int y, int cellType);
 	void click();
 };
