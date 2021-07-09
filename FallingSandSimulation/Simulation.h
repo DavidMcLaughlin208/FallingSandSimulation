@@ -27,7 +27,7 @@ private:
 	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 1;
+	int pixelModifier = 3;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
@@ -39,6 +39,8 @@ private:
 	std::unordered_map<int, int> rulesMap;
 	bool threads = true;
 	int threadCount;
+	int cellTypes = 4;
+	std::vector <sf::Color> cellColors;
 public:
 	Simulation();
 	~Simulation();
@@ -55,8 +57,7 @@ public:
 	void populateMatrix();
 	void updateMatrix();
 	void updateMatrixColumn(int start, int end);
-	//void updateMatrixColumn(int& start, int& end);
-	bool getNeighbors(int x, int y, int cellType);
+	int getNeighbors(int x, int y, int cellType);
 	void click();
 };
 
