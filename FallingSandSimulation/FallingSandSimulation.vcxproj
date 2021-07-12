@@ -158,6 +158,7 @@
     <ClCompile Include="RockPaperScissors.cpp" />
     <ClCompile Include="RuleSet.cpp" />
     <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="UnitUtils.cpp" />
   </ItemGroup>
@@ -173,6 +174,7 @@
     <ClInclude Include="RockPaperScissors.h" />
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="Simulation.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="UnitUtils.h" />
   </ItemGroup>

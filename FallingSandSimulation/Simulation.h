@@ -24,13 +24,12 @@ class Simulation
 private:
 	//Simulation(const Simulation&) = default;
 	//Simulation& operator=(const Simulation&) = default;
-	sf::RenderWindow* window;
 	sf::Event ev;
 	sf::VideoMode videoMode;
 	sf::Vector2i mousePosWindow;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 4;
+	int pixelModifier = 8;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
@@ -58,7 +57,7 @@ public:
 	void updateMatrixColumn(int start, int end);
 	void click();
 
-	
+	sf::RenderWindow* window;
 	UnitUtils* unitUtils;
 	RuleSet* ruleSet;
 	int cellTypes = 4;

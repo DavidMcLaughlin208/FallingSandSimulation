@@ -13,6 +13,7 @@
 #include "RuleSet.h"
 #include "Life.h"
 #include "DualNeighborhood.h"
+#include "Slider.h"
 
 int main() 
 {
@@ -32,22 +33,38 @@ int main()
 	//	//std::cout << "Render took: " << elapsed/std::chrono::milliseconds(1) << " ms" <<  std::endl;
 	//}
 
-	int waitTime = 1000;
+	Slider timeScale(20, 20);
+	timeScale.create(0, 1000);
+	timeScale.setSliderPercentValue(50);
+	int waitTime = 100;
+	int waitAccumulator = 0;
 
 	while (sim.running()) {
 		auto startUpdate = std::chrono::high_resolution_clock::now();
-		sim.update();
+
+		sim.window->clear();
+		if (waitAccumulator > waitTime) {
+			sim.update();
+			waitAccumulator = 0;
+		}
+		
 		sim.render();
+
+		waitTime = timeScale.maxValue - timeScale.getSliderValue();
+		timeScale.draw(*(sim.window));
+		sim.window->display();
+
 		auto elapsedUpdate = std::chrono::high_resolution_clock::now() - startUpdate;
 
 		int timeElapsed = elapsedUpdate / std::chrono::milliseconds(1);
+		waitAccumulator += timeElapsed;
 
-		if (timeElapsed < waitTime) {
+		/*if (timeElapsed < ) {
 			std::cout << "Sleeping" << std::endl;
 			std::this_thread::sleep_for(std::chrono::milliseconds(waitTime - timeElapsed));
-		}
+		}*/
 
-		std::cout << timeElapsed << std::endl;
+		//std::cout << timeElapsed << std::endl;
 		
 	}
 

@@ -83,7 +83,7 @@ void Simulation::pollEvents()
 	}
 
 	if (mouseDown) {
-		click();
+		//click();
 	}
 }
 
@@ -267,11 +267,8 @@ void Simulation::update()
 
 void Simulation::render()
 {
-	this->window->clear();
 	//this->window->draw(*this->sprite, &this->shader);
 	this->window->draw(*this->sprite);
-
-	this->window->display();
 }
 
 

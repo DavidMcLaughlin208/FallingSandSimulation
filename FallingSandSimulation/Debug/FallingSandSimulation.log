@@ -1,4 +1,23 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (FallingSandSimulation.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  DualNeighborhood.cpp
+  Life.cpp
+  RockPaperScissors.cpp
+  Simulation.cpp
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\Simulation.cpp(40,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\Simulation.cpp(55,70): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\Simulation.cpp(55,51): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\Simulation.cpp(167,95): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\Simulation.cpp(167,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   main.cpp
-C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\main.cpp(43,19): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\main.cpp(53,33): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\David\source\repos\FallingSandSimulation\FallingSandSimulation\main.cpp(59,19): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  Generating Code...
   FallingSandSimulation.vcxproj -> C:\Users\David\source\repos\FallingSandSimulation\Debug\FallingSandSimulation.exe
