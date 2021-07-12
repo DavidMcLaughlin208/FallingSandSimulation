@@ -149,6 +149,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CellularAutomaton.cpp" />
     <ClCompile Include="CellularMatrix.cpp" />
+    <ClCompile Include="DualNeighborhood.cpp" />
     <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImmovableSolid.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CellularAutomaton.h" />
     <ClInclude Include="CellularMatrix.h" />
+    <ClInclude Include="DualNeighborhood.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImmovableSolid.h" />

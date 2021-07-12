@@ -5,8 +5,8 @@ Life::Life() {
 
 int Life::processCell(int x, int y, int cellType)
 {
-	int totalRows = sim->unitUtils->getMatrixHeight();
-	int totalCellsPerRow = sim->unitUtils->getMatrixWidth();
+	int totalRows = RuleSet::sim->unitUtils->getMatrixHeight();
+	int totalCellsPerRow = RuleSet::sim->unitUtils->getMatrixWidth();
 	int total = 0;
 	for (int modY = -1; modY <= 1; modY++) {
 		for (int modX = -1; modX <= 1; modX++) {

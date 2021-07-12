@@ -12,13 +12,14 @@
 #include "Simulation.h"
 #include "RuleSet.h"
 #include "Life.h"
+#include "DualNeighborhood.h"
 
 int main() 
 {
     //Init Game engine
 	//Game game;
-	RuleSet* life = new Life();
-	Simulation sim(life);
+	RuleSet* ruleSet = new DualNeighborhood();
+	Simulation sim(ruleSet);
 
 	//while (game.running()) {
 	//	//auto startUpdate = std::chrono::high_resolution_clock::now();
@@ -31,7 +32,7 @@ int main()
 	//	//std::cout << "Render took: " << elapsed/std::chrono::milliseconds(1) << " ms" <<  std::endl;
 	//}
 
-	int waitTime = 0;
+	int waitTime = 1000;
 
 	while (sim.running()) {
 		auto startUpdate = std::chrono::high_resolution_clock::now();
