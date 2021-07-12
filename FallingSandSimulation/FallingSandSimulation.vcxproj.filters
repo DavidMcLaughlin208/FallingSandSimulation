@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Elements\Solid\Liquid">
       <UniqueIdentifier>{58291466-a409-4bde-b02f-3f92e78b361f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\RuleSet">
+      <UniqueIdentifier>{afafb8d4-c3df-482f-babd-1cf674c5a1b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RuleSet">
+      <UniqueIdentifier>{570938c2-c308-4068-b34f-d96ffaac56fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +87,12 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RuleSet.cpp">
+      <Filter>Source Files\RuleSet</Filter>
+    </ClCompile>
+    <ClCompile Include="RockPaperScissors.cpp">
+      <Filter>Source Files\RuleSet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -109,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RuleSet.h">
+      <Filter>Header Files\RuleSet</Filter>
+    </ClInclude>
+    <ClInclude Include="RockPaperScissors.h">
+      <Filter>Header Files\RuleSet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

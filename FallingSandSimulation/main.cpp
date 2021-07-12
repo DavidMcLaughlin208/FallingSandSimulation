@@ -42,6 +42,8 @@ int main()
 			std::cout << "Sleeping" << std::endl;
 			std::this_thread::sleep_for(std::chrono::milliseconds(waitTime - timeElapsed));
 		}
+
+		std::cout << timeElapsed << std::endl;
 		
 	}
 

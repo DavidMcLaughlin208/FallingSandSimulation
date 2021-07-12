@@ -1,4 +1,5 @@
 #include "Simulation.h"
+#include "RockPaperScissors.h"
 
 #include <thread>
 #include <list>
@@ -28,20 +29,9 @@ void Simulation::initializeVariables() {
 	this->matrix = new CellularAutomaton(this->unitUtils->getMatrixWidth(), this->unitUtils->getMatrixHeight());
 	this->texture = new sf::Texture();
 	this->sprite = new sf::Sprite();
-	this->typeToColorMap[0] = sf::Color::Blue;
-	this->typeToColorMap[1] = sf::Color::Red;
-	this->typeToColorMap[2] = sf::Color::Green;
-	this->rulesMap[0] = 2;
-	this->rulesMap[1] = 0;
-	this->rulesMap[2] = 1;
 	this->threadCount = this->unitUtils->getMatrixWidth() / 30;
-	this->cellColors.push_back(sf::Color::Blue);
-	this->cellColors.push_back(sf::Color::Magenta);
-	this->cellColors.push_back(sf::Color::White);
-	this->cellColors.push_back(sf::Color::Black);
-	this->cellColors.push_back(sf::Color::Yellow);
-	this->cellColors.push_back(sf::Color::Red);
-	this->cellColors.push_back(sf::Color::Green);
+	this->ruleSet = new RockPaperScissors();
+
 	std::cout << this->threadCount << std::endl;
 }
 
@@ -103,7 +93,7 @@ void Simulation::click() {
 			if (mouseMatrixX + modX < 0 || mouseMatrixX + modX > this->unitUtils->getMatrixWidth() - 1 || mouseMatrixY + modY < 0 || mouseMatrixY + modY > this->unitUtils->getMatrixHeight() - 1) {
 				continue;
 			}
-			this->matrix->setCell(mouseMatrixX + modX, mouseMatrixY + modY, 0);
+			this->matrix->setCell(mouseMatrixX + modX, mouseMatrixY + modY, rand() % this->cellTypes);
 		}
 	}
 }
@@ -117,7 +107,13 @@ void Simulation::populateMatrix() {
 		//std::cout << "newRow" << y << std::endl;
 		for (int x = 0; x < totalCellsPerRow; x++) {
 			//int createdCell = ((x / borders) + (y / borders2)) / 2;
-			this->matrix->setCell(x + y * totalCellsPerRow, rand() % this->cellTypes);
+			if (rand() % 1000 == 0) {
+				this->matrix->setCell(x + y * totalCellsPerRow, (rand() % (this->cellTypes + 1)) - 1);
+			}
+			else {
+				this->matrix->setCell(x + y * totalCellsPerRow, -1);
+			}
+			
 			//this->matrix->setCell(x + y * totalCellsPerRow, createdCell);
 		}
 	}
@@ -125,30 +121,30 @@ void Simulation::populateMatrix() {
 	std::cout << "Finished populating matrix" << std::endl;
 }
 
-void Simulation::updateMatrix() {
-	int totalRows = this->unitUtils->getMatrixHeight();
-	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
-	for (int y = 0; y < totalRows; y++) {
-		//std::cout << "newRow" << y << std::endl;
-		for (int x = 0; x < totalCellsPerRow; x++) {
-			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
-			bool getEaten = getNeighbors(x, y, currentCell);
-			if (getEaten) {
-				if (currentCell == 0) {
-					this->matrix->setCell(x + y * totalCellsPerRow, 3);
-				}
-				else {
-					this->matrix->setCell(x + y * totalCellsPerRow, currentCell - 1);
-				}
-				
-			}
-			else {
-				this->matrix->setCell(x + y * totalCellsPerRow, currentCell);
-			}
-			
-		}
-	}
-}
+//void Simulation::updateMatrix() {
+//	int totalRows = this->unitUtils->getMatrixHeight();
+//	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
+//	for (int y = 0; y < totalRows; y++) {
+//		//std::cout << "newRow" << y << std::endl;
+//		for (int x = 0; x < totalCellsPerRow; x++) {
+//			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
+//			bool getEaten = getNeighbors(x, y, currentCell);
+//			if (getEaten) {
+//				if (currentCell == 0) {
+//					this->matrix->setCell(x + y * totalCellsPerRow, 3);
+//				}
+//				else {
+//					this->matrix->setCell(x + y * totalCellsPerRow, currentCell - 1);
+//				}
+//				
+//			}
+//			else {
+//				this->matrix->setCell(x + y * totalCellsPerRow, currentCell);
+//			}
+//			
+//		}
+//	}
+//}
 
 void Simulation::updateMatrixColumn(int start, int end) {
 	int totalRows = this->unitUtils->getMatrixHeight();
@@ -160,64 +156,12 @@ void Simulation::updateMatrixColumn(int start, int end) {
 				continue;
 			}
 			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
-			int convertedCellType = getNeighbors(x, y, currentCell);
+			//int convertedCellType = getNeighbors(x, y, currentCell);
+			int convertedCellType = this->ruleSet->processCell(x, y, currentCell, this);
 			this->matrix->setCell(x + y * totalCellsPerRow, convertedCellType);
 
 		}
 	}
-}
-
-int Simulation::getNeighbors(int x, int y, int cellType) {
-	int totalRows = this->unitUtils->getMatrixHeight();
-	int totalCellsPerRow = this->unitUtils->getMatrixWidth();
-	int eatCount = 0;
-	int targetCellType1 = cellType - 1;
-	int targetCellType2 = cellType - 2;
-	int targetCellCount1 = 0;
-	int targetCellCount2 = 0;
-	for (int modY = -1; modY <= 1; modY++) {
-		for (int modX = -1; modX <= 1; modX++) {
-			if (modY == 0 && modX == 0) {
-				continue;
-			}
-			int newX = x + modX;
-			int newY = y + modY;
-			if (newX > totalCellsPerRow - 1) {
-				newX = 0;
-			}
-			else if (newX < 0) {
-				newX = totalCellsPerRow - 1;
-			}
-
-			if (newY > totalRows - 1) {
-				newY = 0;
-			}
-			else if (newY < 0) {
-				newY = totalRows - 1;
-			}
-			int neighborCellType = this->matrix->getCell(newX + newY * totalCellsPerRow);
-			
-			if (targetCellType1 < 0) {
-				targetCellType1 = this->cellTypes - 1;
-			}
-			if (targetCellType2 < 0) {
-				targetCellType2 = this->cellTypes - 2;
-			}
-			if (neighborCellType == targetCellType1) {
-				targetCellCount1++;
-			}
-			if (neighborCellType == targetCellType1) {
-				targetCellCount2++;
-			}
-			if (targetCellCount1 > 2) {
-				return targetCellType1;
-			}
-			if (targetCellCount2 > 2) {
-				return targetCellType1;
-			}
-		}
-	}
-	return cellType;
 }
 
 void Simulation::initTexture() {
@@ -237,7 +181,7 @@ void Simulation::updateTexture() {
 			int actualX = x * this->unitUtils->getPixelSize();
 			int actualY = y * totalCellsPerRow * this->unitUtils->getPixelSize();
 			int cellType = this->matrix->getCell(x + y * totalCellsPerRow);
-			sf::Color color = this->cellColors[cellType];
+			sf::Color color = this->ruleSet->getColorForCell(cellType);
 			pixelRef[actualX + actualY] = color.r;
 			pixelRef[actualX + actualY + 1] = color.g;
 			pixelRef[actualX + actualY + 2] = color.b;
@@ -312,8 +256,8 @@ void Simulation::update()
 		this->texture->update(startOfArray);*/
 	}
 	else {
-		this->updateMatrix();
-		this->updateTexture();
+		/*this->updateMatrix();
+		this->updateTexture();*/
 	}
 
 	

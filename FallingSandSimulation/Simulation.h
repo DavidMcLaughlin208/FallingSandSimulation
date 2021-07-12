@@ -4,6 +4,8 @@
 #include <vector>
 #include "UnitUtils.h"
 #include "CellularAutomaton.h"
+#include "RuleSet.h"
+#include "RockPaperScissors.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -14,6 +16,8 @@
 #include <vector>
 #include <unordered_map>
 
+class RuleSet;
+class RockPaperScissors;
 
 class Simulation
 {
@@ -24,23 +28,18 @@ private:
 	sf::Event ev;
 	sf::VideoMode videoMode;
 	sf::Vector2i mousePosWindow;
-	UnitUtils* unitUtils;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 3;
+	int pixelModifier = 4;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
-	CellularAutomaton* matrix;
 	bool mouseDown = false;
 	sf::Shader shader;
 	int count = 0;
-	std::unordered_map<int, sf::Color> typeToColorMap;
-	std::unordered_map<int, int> rulesMap;
 	bool threads = true;
 	int threadCount;
-	int cellTypes = 4;
-	std::vector <sf::Color> cellColors;
+	
 public:
 	Simulation();
 	~Simulation();
@@ -55,9 +54,14 @@ public:
 	void initWindow();
 	void initializeVariables();
 	void populateMatrix();
-	void updateMatrix();
+	//void updateMatrix();
 	void updateMatrixColumn(int start, int end);
-	int getNeighbors(int x, int y, int cellType);
 	void click();
+
+	
+	UnitUtils* unitUtils;
+	RuleSet* ruleSet;
+	int cellTypes = 4;
+	CellularAutomaton* matrix;
 };
 

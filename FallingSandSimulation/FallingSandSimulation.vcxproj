@@ -153,6 +153,8 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImmovableSolid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RockPaperScissors.cpp" />
+    <ClCompile Include="RuleSet.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="UnitUtils.cpp" />
@@ -164,6 +166,8 @@
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImmovableSolid.h" />
+    <ClInclude Include="RockPaperScissors.h" />
+    <ClInclude Include="RuleSet.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="UnitUtils.h" />
