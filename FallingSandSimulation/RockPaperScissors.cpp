@@ -9,7 +9,7 @@ RockPaperScissors::RockPaperScissors() {
 	this->cellColors.push_back(sf::Color::Green);
 }
 
-int RockPaperScissors::processCell(int x, int y, int cellType, Simulation* sim) {
+int RockPaperScissors::processCell(int x, int y, int cellType) {
 	int totalRows = sim->unitUtils->getMatrixHeight();
 	int totalCellsPerRow = sim->unitUtils->getMatrixWidth();
 	int eatCount = 0;
@@ -37,7 +37,7 @@ int RockPaperScissors::processCell(int x, int y, int cellType, Simulation* sim) 
 			else if (newY < 0) {
 				newY = totalRows - 1;
 			}
-			int neighborCellType = sim->matrix->getCell(newX + newY * totalCellsPerRow);
+			int neighborCellType = RuleSet::sim->matrix->getCell(newX + newY * totalCellsPerRow);
 			if (cellType == -1 && neighborCellType != -1) {
 				return neighborCellType;
 			}
@@ -68,4 +68,9 @@ int RockPaperScissors::processCell(int x, int y, int cellType, Simulation* sim) 
 sf::Color RockPaperScissors::getColorForCell(int cellType)
 {
 	return this->cellColors[cellType + 1];
+}
+
+int RockPaperScissors::populateInitalCell(int x, int y)
+{
+	return (rand() % (this->sim->cellTypes + 1)) - 1;
 }

@@ -93,6 +93,9 @@
     <ClCompile Include="RockPaperScissors.cpp">
       <Filter>Source Files\RuleSet</Filter>
     </ClCompile>
+    <ClCompile Include="Life.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="RockPaperScissors.h">
       <Filter>Header Files\RuleSet</Filter>
+    </ClInclude>
+    <ClInclude Include="Life.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

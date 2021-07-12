@@ -1,5 +1,6 @@
 #include "Simulation.h"
 #include "RockPaperScissors.h"
+#include "Life.h"
 
 #include <thread>
 #include <list>
@@ -30,18 +31,20 @@ void Simulation::initializeVariables() {
 	this->texture = new sf::Texture();
 	this->sprite = new sf::Sprite();
 	this->threadCount = this->unitUtils->getMatrixWidth() / 30;
-	this->ruleSet = new RockPaperScissors();
-
+	
 	std::cout << this->threadCount << std::endl;
 }
 
-Simulation::Simulation()
+Simulation::Simulation(RuleSet* ruleSet_)
 {
 	srand(time(0));
+	this->ruleSet = ruleSet_;
+	this->ruleSet->sim = this;
 	this->initializeVariables();
 	this->initWindow();
 	this->populateMatrix();
 	this->initTexture();
+
 
 	
 	
@@ -106,15 +109,7 @@ void Simulation::populateMatrix() {
 	for (int y = 0; y < totalRows; y++) {
 		//std::cout << "newRow" << y << std::endl;
 		for (int x = 0; x < totalCellsPerRow; x++) {
-			//int createdCell = ((x / borders) + (y / borders2)) / 2;
-			if (rand() % 1000 == 0) {
-				this->matrix->setCell(x + y * totalCellsPerRow, (rand() % (this->cellTypes + 1)) - 1);
-			}
-			else {
-				this->matrix->setCell(x + y * totalCellsPerRow, -1);
-			}
-			
-			//this->matrix->setCell(x + y * totalCellsPerRow, createdCell);
+			this->matrix->setCell(x + y * totalCellsPerRow, this->ruleSet->populateInitalCell(x, y));
 		}
 	}
 	this->matrix->swapBuffer();
@@ -157,7 +152,7 @@ void Simulation::updateMatrixColumn(int start, int end) {
 			}
 			int currentCell = this->matrix->getCell(x + y * totalCellsPerRow);
 			//int convertedCellType = getNeighbors(x, y, currentCell);
-			int convertedCellType = this->ruleSet->processCell(x, y, currentCell, this);
+			int convertedCellType = this->ruleSet->processCell(x, y, currentCell);
 			this->matrix->setCell(x + y * totalCellsPerRow, convertedCellType);
 
 		}

@@ -10,12 +10,15 @@
 #include <SFML/Network.hpp>
 #include "Game.h"
 #include "Simulation.h"
+#include "RuleSet.h"
+#include "Life.h"
 
 int main() 
 {
     //Init Game engine
 	//Game game;
-	Simulation sim;
+	RuleSet* life = new Life();
+	Simulation sim(life);
 
 	//while (game.running()) {
 	//	//auto startUpdate = std::chrono::high_resolution_clock::now();

@@ -41,7 +41,7 @@ private:
 	int threadCount;
 	
 public:
-	Simulation();
+	Simulation(RuleSet* ruleSet_);
 	~Simulation();
 	void pollEvents();
 	void initTexture();
