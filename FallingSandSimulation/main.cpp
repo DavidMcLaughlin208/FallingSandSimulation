@@ -35,7 +35,24 @@ int main()
 
 	Slider timeScale(20, 20);
 	timeScale.create(0, 1000);
-	timeScale.setSliderPercentValue(50);
+	timeScale.setSliderPercentValue(80);
+
+	Slider slider1(20, 40);
+	slider1.create(0, 8);
+	slider1.setSliderValue(2);
+
+	Slider slider2(20, 60);
+	slider2.create(0, 8);
+	slider2.setSliderValue(4);
+
+	Slider slider3(20, 80);
+	slider3.create(0, 16);
+	slider3.setSliderValue(3);
+
+	Slider slider4(20, 100);
+	slider4.create(0, 16);
+	slider4.setSliderValue(5);
+
 	int waitTime = 100;
 	int waitAccumulator = 0;
 
@@ -52,6 +69,14 @@ int main()
 
 		waitTime = timeScale.maxValue - timeScale.getSliderValue();
 		timeScale.draw(*(sim.window));
+		sim.ruleSet->sliderVal1 = slider1.getSliderValue();
+		slider1.draw(*(sim.window));
+		sim.ruleSet->sliderVal2 = slider2.getSliderValue();
+		slider2.draw(*(sim.window));
+		sim.ruleSet->sliderVal3 = slider3.getSliderValue();
+		slider3.draw(*(sim.window));
+		sim.ruleSet->sliderVal4 = slider4.getSliderValue();
+		slider4.draw(*(sim.window));
 		sim.window->display();
 
 		auto elapsedUpdate = std::chrono::high_resolution_clock::now() - startUpdate;

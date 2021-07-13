@@ -6,6 +6,7 @@
 #include "CellularAutomaton.h"
 #include "RuleSet.h"
 #include "RockPaperScissors.h"
+#include "PerlinNoise.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -29,7 +30,7 @@ private:
 	sf::Vector2i mousePosWindow;
 	unsigned int windowWidth = 1280;
 	unsigned int windowHeight = 800;
-	int pixelModifier = 8;
+	int pixelModifier = 4;
 	sf::Texture* texture;
 	sf::Sprite* sprite;
 	std::vector<sf::Uint8>* pixels;
@@ -62,5 +63,6 @@ public:
 	RuleSet* ruleSet;
 	int cellTypes = 4;
 	CellularAutomaton* matrix;
+	PerlinNoise* perlinNoise;
 };
 

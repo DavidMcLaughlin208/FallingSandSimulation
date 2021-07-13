@@ -20,5 +20,9 @@ public:
 	}
 
 	Simulation* sim;
+	int sliderVal1;
+	int sliderVal2;
+	int sliderVal3;
+	int sliderVal4;
 };
 

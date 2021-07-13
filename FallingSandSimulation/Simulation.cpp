@@ -26,6 +26,7 @@ void Simulation::initWindow()
 
 void Simulation::initializeVariables() {
 	this->window = nullptr;
+	this->perlinNoise = new PerlinNoise(time(0));
 	this->unitUtils = new UnitUtils(this->pixelModifier, this->windowWidth, this->windowHeight);
 	this->matrix = new CellularAutomaton(this->unitUtils->getMatrixWidth(), this->unitUtils->getMatrixHeight());
 	this->texture = new sf::Texture();
@@ -70,6 +71,10 @@ void Simulation::pollEvents()
 			if (this->ev.key.code == sf::Keyboard::Escape) {
 				this->window->close();
 			}
+			if (this->ev.key.code == sf::Keyboard::R) {
+				populateMatrix();
+				this->matrix->swapBuffer();
+			}
 			break;
 		case sf::Event::MouseButtonPressed:
 			mouseDown = true;
@@ -83,7 +88,7 @@ void Simulation::pollEvents()
 	}
 
 	if (mouseDown) {
-		//click();
+		click();
 	}
 }
 
@@ -96,7 +101,7 @@ void Simulation::click() {
 			if (mouseMatrixX + modX < 0 || mouseMatrixX + modX > this->unitUtils->getMatrixWidth() - 1 || mouseMatrixY + modY < 0 || mouseMatrixY + modY > this->unitUtils->getMatrixHeight() - 1) {
 				continue;
 			}
-			this->matrix->setCell(mouseMatrixX + modX, mouseMatrixY + modY, rand() % this->cellTypes);
+			this->matrix->setCell(mouseMatrixX + modX, mouseMatrixY + modY, rand() % 2);
 		}
 	}
 }
@@ -267,8 +272,8 @@ void Simulation::update()
 
 void Simulation::render()
 {
-	//this->window->draw(*this->sprite, &this->shader);
-	this->window->draw(*this->sprite);
+	this->window->draw(*this->sprite, &this->shader);
+	//this->window->draw(*this->sprite);
 }
 
 

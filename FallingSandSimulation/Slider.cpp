@@ -5,7 +5,7 @@ Slider::Slider(int x, int y)
 {
 	xCord = x;
 	yCord = y;
-	axisHeight = 10;
+	axisHeight = 15;
 	axisWidth = 200;
 	sliderWidth = 20;
 	sliderHeight = 30;

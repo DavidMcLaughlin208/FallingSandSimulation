@@ -155,6 +155,7 @@
     <ClCompile Include="ImmovableSolid.cpp" />
     <ClCompile Include="Life.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="RockPaperScissors.cpp" />
     <ClCompile Include="RuleSet.cpp" />
     <ClCompile Include="Simulation.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImmovableSolid.h" />
     <ClInclude Include="Life.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="RockPaperScissors.h" />
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="Simulation.h" />
